@@ -1,6 +1,6 @@
 /* 角色扮演游戏 */
 
-// 1.单一职责原则 | Single responsibility principle
+// 1.单一职责原则 | Single responsibility principle ___________________________________
 
 /* 厨师 */
 class CookErrorClass {
@@ -34,7 +34,7 @@ const human = new Human()
 const cookEat = human.eat(cook)
 
 
-// 2.开闭原则 | Open-Closed Principle
+// 2.开闭原则 | Open-Closed Principle ___________________________________
 
 // description：对扩展开放、对修改关闭。要么继承要么注入，不轻易修改已经写好的类。
 
@@ -79,7 +79,7 @@ city.theCity(shenzheng).go('切换深圳地图')
 // 这种实现很好的实现了对扩展开放，对修改关闭的原则。
 
 
-// 3. 里氏替换原则 | Liskov Substitution Principle
+// 3. 里氏替换原则 | Liskov Substitution Principle ___________________________________
 
 // description：父类可以替换子类，并且替换后系统结果一致
 
@@ -141,7 +141,7 @@ hero.weapon = rifle;
 hero.attack(); // 步枪攻击，造成20点伤害
 
 
-// 4. 接口分离原则 | Interface Segregation Principle
+// 4. 接口分离原则 | Interface Segregation Principle ___________________________________
 
 // 单个接口方法越少越好，不应该被迫实现用不上的方法。
 interface Attackable {
@@ -178,7 +178,7 @@ defend(player);
 const obstacle = new Obstacle();
 defend(obstacle);
 
-// 5. 依赖倒置原则 | Dependency Inversion Principal
+// 5. 依赖倒置原则 | Dependency Inversion Principal ___________________________________
 
 // description：高阶模块不应该依赖低阶模块，两者都应该依赖与抽象；
 
