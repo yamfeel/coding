@@ -19,7 +19,8 @@ const cookEat_err = cook_err.eat()
 const athconstes = new AthconstesErrorClass()
 const athconstesEat = athconstes.eat()
 
-// 存在问题多角色，没有复用重复代码，请思考类的上层抽象，在上层观测哪些需要单独抽象成单一职责。
+// 存在问题多角色，没有复用重复代码，请思考关于类的上层抽象，在上层观测哪些需要单独抽象成单一职责。
+// 比如将吃可抽象为上层单一职责
 
 /* 改造 */
 class Cook {
@@ -34,11 +35,13 @@ const human = new Human()
 const cookEat = human.eat(cook)
 
 
+
+
 // 2.开闭原则 | Open-Closed Principle ___________________________________
 
 // description：对扩展开放、对修改关闭。要么继承要么注入，不轻易修改已经写好的类。
 
-/* 城市 */
+/* Now城市：关于城市地图的抽象类 */
 class CityError {
   go(content, type: string) {
     if (type === 'guangzhou') { }
@@ -47,7 +50,7 @@ class CityError {
   }
 }
 
-/* 改造 - 继承法 */
+/* 改造一 - 继承法 */
 class CityEx {
   go(content) { }
 }
@@ -57,7 +60,7 @@ class Guangzhou extends CityEx {
 }
 // 缺点改变父类方法，违背里氏替换原则
 
-/* 改造 - 构造法 */
+/* 改造二 - 构造法 */
 class City {
   protected _city
   theCity(city) {
@@ -76,7 +79,9 @@ class Shenzheng extends City {
 const city = new City()
 const shenzheng = new Shenzheng()
 city.theCity(shenzheng).go('切换深圳地图')
-// 这种实现很好的实现了对扩展开放，对修改关闭的原则。
+// 这种子类指向父类，在父类调子类的的实现，很好的实现了对类的扩展开放，对修改关闭的原则。
+
+
 
 
 // 3. 里氏替换原则 | Liskov Substitution Principle ___________________________________
@@ -140,6 +145,11 @@ hero.attack(); // 手枪攻击，造成10点伤害
 hero.weapon = rifle;
 hero.attack(); // 步枪攻击，造成20点伤害
 
+// 里氏替换原则有点像废话，子类可能会继承父类的一些属性和方法，但仍然可能存在例外情况，
+// 比如当子类存在特殊情况或添加新的功能，这时就需要采用里氏替换原则，以保证子类能够正确使用父类的一切操作。
+
+
+
 
 // 4. 接口分离原则 | Interface Segregation Principle ___________________________________
 
@@ -178,6 +188,9 @@ defend(player);
 const obstacle = new Obstacle();
 defend(obstacle);
 
+
+
+
 // 5. 依赖倒置原则 | Dependency Inversion Principal ___________________________________
 
 // description：高阶模块不应该依赖低阶模块，两者都应该依赖与抽象；
@@ -191,3 +204,5 @@ class NPC {
     notice.send()
   }
 }
+
+// 简单来说，当我们抽象对象要复用代码时，就要考虑依赖导入，而不是直接复用。
