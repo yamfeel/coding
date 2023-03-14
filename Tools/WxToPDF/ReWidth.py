@@ -16,7 +16,7 @@ for filename in os.listdir('.'):
         new_size = (new_width, img.height + 2 * border_width)
         new_img = Image.new(mode='RGB', size=new_size, color='white')
         new_img.paste(img, (border_width, border_width))
-        new_filename = os.path.join('images', f'{os.path.splitext(filename)[0]}_border.png')
+        new_filename = os.path.join('images', f'{os.path.splitext(filename)[0]}.png')
         new_img.save(new_filename)
 
 print('Done.')

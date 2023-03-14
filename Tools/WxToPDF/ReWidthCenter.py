@@ -12,9 +12,9 @@ for file_name in os.listdir():
         # 获取原图宽度
         img_width = img.size[0]
         # 创建白底图片
-        white_img = Image.new('RGB', (img_width * 2, img.size[1]), color = 'white')
+        white_img = Image.new('RGB', (img_width + 300, img.size[1] + 100), color = 'white')
         # 将原图居中放置在白底图片中央
-        white_img.paste(img, (img_width // 2, 0))
+        white_img.paste(img, (300 // 2, 100 // 2))
         # 保存加框后的图片
         bordered_img = white_img.crop((2, 2, white_img.size[0] - 2, white_img.size[1] - 2))
         bordered_img.save(f"images/{os.path.splitext(file_name)[0]}.png")
