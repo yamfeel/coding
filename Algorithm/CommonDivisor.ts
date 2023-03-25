@@ -1,22 +1,13 @@
-const gcd = (a: number, b: number): number => {
-    if (b === 0) {
-        return a;
+let hasGroupsSizeX = function (deck) {
+    let map = new Map()
+    for (let n of deck) { //统计频次
+        map.set(n, map.has(n) ? map.get(n) + 1 : 1)
     }
-    return gcd(b, a % b);
-};
+    let arr = [...map.values()]
+    let res = arr[0]
+    // every() 方法测试数组的所有元素是否都通过了指定函数的测试。
+    return arr.every(i => (res = gcd(res, i)) > 1) //求最大公约数是否大于1
 
-export default arr => {
-    const str = arr.sort().join("")
-    const group = str.match(/(\d)\1+|d/g)
-    while (group.length > 1) {
-        const a = group.shift()
-        const b = group.shift()
-        const m = gcd(a.length, b.length)
-        if (m === 1) {
-            return false
-        } else {
-            group.unshift("0".repeat(m))
-        }
-    }
-    return group.length ? group[0].length > 1 : false
-}
+};
+//辗转相除法 4,2
+let gcd = (a, b) => (b === 0 ? a : gcd(b, a % b))
