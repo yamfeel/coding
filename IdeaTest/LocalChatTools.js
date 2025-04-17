@@ -1,9 +1,11 @@
-async function sendRequest() {
-    console.time('sendRequest'); // 开始计时
+async function sendRequest(model) {
+    console.time(model); // 开始计时
 
     const url = 'http://localhost:11434/api/chat';
     const body = JSON.stringify({
-        model: "llama3.2",
+        // model: "qwen2.5:7b",
+        // model: "qwen2.5:3b",
+        model,
         messages: [
             { role: "user", content: "What is the weather in shanghai?" }
         ],
@@ -53,8 +55,9 @@ async function sendRequest() {
     } catch (error) {
         console.error('Error:', error);
     } finally {
-        console.timeEnd('sendRequest'); // 结束计时并输出耗时
+        console.timeEnd(model); // 结束计时并输出耗时
     }
 }
 
-sendRequest();
+// sendRequest('llama3.2');
+sendRequest('qwen2.5:3b');
