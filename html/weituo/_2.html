@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Power of Attorney Generator (South Africa)</title>
+    <style>
+        /* 基础样式 - 用于屏幕显示 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            flex-direction: row;
+        }
+
+        /* 左侧输入区域样式 */
+        .input-panel {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #374151;
+        }
+
+        input[type="text"], input[type="date"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            box-sizing: border-box; /* Fix padding issue */
+        }
+        
+        textarea {
+            resize: vertical;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            color: #111827;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 5px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .btn-print {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #1d4ed8;
+        }
+
+        .warning-box {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #b91c1c;
+            padding: 10px;
+            font-size: 0.85em;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* 右侧预览区域 (A4纸模拟) */
+        .preview-panel {
+            flex: 1.5;
+            background: #525659;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+
+        .a4-page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            /* 压缩页边距以适应一页 */
+            padding: 15mm 15mm; 
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* 法律文档排版样式 */
+        .doc-title {
+            text-align: center;
+            font-family: "Times New Roman", serif;
+            font-size: 16pt; /* 稍微调小标题 */
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .doc-body {
+            font-family: "Times New Roman", serif;
+            font-size: 10.5pt; /* 稍微调小正文 */
+            line-height: 1.3; /* 紧凑行距 */
+            color: black;
+            text-align: justify;
+        }
+        
+        .doc-body p {
+            margin: 8px 0; /* 减少段落间距 */
+        }
+
+        .doc-field {
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0 5px;
+        }
+        
+        .doc-list {
+            list-style-type: decimal;
+            margin-left: 10px;
+            padding-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .doc-list li {
+            margin-bottom: 4px; /* 列表项更紧凑 */
+        }
+
+        .signature-section {
+            margin-top: 25px;
+            page-break-inside: avoid;
+        }
+
+        .witness-block {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .witness-line {
+            width: 45%;
+            border-top: 1px solid black;
+            padding-top: 5px;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+
+        /* 打印专用样式 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .input-panel, .preview-panel {
+                display: none; /* Hide UI */
+            }
+            .container {
+                display: block;
+            }
+            .a4-page {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                height: auto;
+                padding: 10mm 15mm; /* 打印时的安全边距 */
+            }
+            /* Make the preview visible as the main content */
+            .preview-panel {
+                display: block !important;
+                background: white;
+                padding: 0;
+                max-height: none;
+                overflow: visible;
+            }
+            .a4-page {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .preview-panel {
+                display: none; /* Hide preview on mobile to save space, rely on print preview */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 输入面板 -->
+    <div class="input-panel">
+        <h2 style="margin-top:0">配置授权书 (Configuration)</h2>
+        <div class="warning-box">
+            <strong>紧急提示：</strong> 此文件必须在授权人（母亲）神智清醒时签署。一旦昏迷，此文件在法律上即刻失效。请务必找两名非直系亲属（如护士、邻居）作为见证人。
+        </div>
+
+        <div class="section-title">1. 授权人信息 (Principal / 母亲)</div>
+        <div class="input-group">
+            <label>全名 (Full Name as per ID)</label>
+            <input type="text" id="principalName" placeholder="例如: Mary Jane Smith" oninput="updateDoc()">
+        </div>
+        <div class="input-group">
+            <label>身份证号 (ID Number)</label>
+            <input type="text" id="principalID" placeholder="13位南非ID号码" oninput="updateDoc()">
+        </div>
+        <div class="input-group">
+            <label>现住址 (Physical Address)</label>
+            <textarea id="principalAddress" rows="2" placeholder="目前居住的详细地址" oninput="updateDoc()"></textarea>
+        </div>
+
+        <div class="section-title">2. 代理人信息 (Agent / 您)</div>
+        <div class="input-group">
+            <label>全名 (Full Name)</label>
+            <input type="text" id="agentName" placeholder="您的全名" oninput="updateDoc()">
+        </div>
+        <div class="input-group">
+            <label>身份证号 (ID Number)</label>
+            <input type="text" id="agentID" placeholder="您的ID号码" oninput="updateDoc()">
+        </div>
+        <div class="input-group">
+            <label>现住址 (Physical Address)</label>
+            <textarea id="agentAddress" rows="2" placeholder="您的详细地址" oninput="updateDoc()"></textarea>
+        </div>
+
+        <div class="section-title">3. 授权范围 (建议全选)</div>
+        <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" id="powerVehicles" checked onchange="updateDoc()"> 车辆 (Vehicles)</label>
+            <label class="checkbox-item"><input type="checkbox" id="powerBanking" checked onchange="updateDoc()"> 银行 (Banking)</label>
+            <label class="checkbox-item"><input type="checkbox" id="powerProperty" checked onchange="updateDoc()"> 动产/债务 (Movable Assets)</label>
+            <label class="checkbox-item"><input type="checkbox" id="powerLegal" checked onchange="updateDoc()"> 法律事务 (Legal/Contracts)</label>
+            <label class="checkbox-item"><input type="checkbox" id="powerTax" checked onchange="updateDoc()"> 税务 (SARS)</label>
+            <label class="checkbox-item"><input type="checkbox" id="powerMedical" checked onchange="updateDoc()"> 医疗行政 (Medical Admin)</label>
+        </div>
+
+        <div class="section-title">4. 签署信息</div>
+        <div class="input-group">
+            <label>签署地点 (Place)</label>
+            <input type="text" id="placeSigned" value="Cape Town" oninput="updateDoc()">
+        </div>
+        <div class="input-group">
+            <label>签署日期 (Date)</label>
+            <input type="date" id="dateSigned" oninput="updateDoc()" placeholder="留空以手写">
+            <small style="color:#666; display:block; margin-top:2px;">(不选则留空，打印后手写)</small>
+        </div>
+
+        <button class="btn-print" onclick="window.print()">打印 / 生成 PDF (Print)</button>
+    </div>
+
+    <!-- 预览面板 -->
+    <div class="preview-panel">
+        <div class="a4-page">
+            <div class="doc-title">GENERAL POWER OF ATTORNEY</div>
+            
+            <div class="doc-body">
+                <p>I, the undersigned,</p>
+                
+                <p style="text-align: center; margin: 10px 0;">
+                    <span class="doc-field" id="dispPrincipalName">__________________________</span><br>
+                    (Identity Number: <span id="dispPrincipalID">__________________________</span>)<br>
+                    of <span id="dispPrincipalAddress">__________________________</span>
+                </p>
+
+                <p>(hereinafter referred to as the <strong>"Principal"</strong>)</p>
+
+                <p>do hereby nominate, constitute and appoint</p>
+
+                <p style="text-align: center; margin: 10px 0;">
+                    <span class="doc-field" id="dispAgentName">__________________________</span><br>
+                    (Identity Number: <span id="dispAgentID">__________________________</span>)<br>
+                    of <span id="dispAgentAddress">__________________________</span>
+                </p>
+
+                <p>(hereinafter referred to as the <strong>"Agent"</strong>)</p>
+
+                <p>to be my lawful Agent and to manage and transact my business in the Republic of South Africa, with full power and authority to act on my behalf in my name, place and stead, and in particular, but without strictly limiting the generality of the foregoing, to do the following acts and things:</p>
+
+                <ol class="doc-list" id="powersList">
+                    <!-- Powers will be injected here via JS -->
+                </ol>
+
+                <p><strong>General Authority:</strong> Generally to do, execute and perform any other act, deed, matter or thing whatsoever as fully and effectually, to all intents and purposes, as I might or could do if personally present and acting in my own proper person.</p>
+
+                <p>I hereby ratify, allow and confirm, and promise at all times to ratify, allow and confirm all and whatsoever my said Agent shall lawfully do or cause to be done by virtue of these presents.</p>
+
+                <div class="signature-section">
+                    <p>SIGNED at <span id="dispPlace" style="font-weight: bold;">Cape Town</span> on this <span id="dispDay" style="font-weight: bold;">________</span> day of <span id="dispMonth" style="font-weight: bold;">_________________</span> 20<span id="dispYear" style="font-weight: bold;">________</span>.</p>
+
+                    <br>
+                    
+                    <div style="float: right; width: 50%; border-top: 1px solid black; padding-top: 5px; text-align: center; font-size: 10pt;">
+                        <strong>SIGNATURE OF PRINCIPAL</strong><br>
+                        (Or Thumbprint if unable to sign)
+                    </div>
+                    <div style="clear: both;"></div>
+
+                    <div class="witness-block">
+                        <div class="witness-line">
+                            Witness 1 Signature
+                        </div>
+                        <div class="witness-line">
+                            Witness 2 Signature
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 已移除日期自动初始化，默认为空
+
+    function updateDoc() {
+        // 更新基本文本字段
+        setText('dispPrincipalName', document.getElementById('principalName').value);
+        setText('dispPrincipalID', document.getElementById('principalID').value);
+        setText('dispPrincipalAddress', document.getElementById('principalAddress').value);
+        
+        setText('dispAgentName', document.getElementById('agentName').value);
+        setText('dispAgentID', document.getElementById('agentID').value);
+        setText('dispAgentAddress', document.getElementById('agentAddress').value);
+        
+        setText('dispPlace', document.getElementById('placeSigned').value);
+
+        // 更新日期
+        const dateVal = document.getElementById('dateSigned').value;
+        if (dateVal) {
+            const dateObj = new Date(dateVal);
+            document.getElementById('dispDay').innerText = dateObj.getDate();
+            document.getElementById('dispMonth').innerText = dateObj.toLocaleString('en-US', { month: 'long' });
+            document.getElementById('dispYear').innerText = dateObj.getFullYear().toString().substr(-2);
+        } else {
+            // 如果日期为空，显示下划线供手写
+            document.getElementById('dispDay').innerText = "________";
+            document.getElementById('dispMonth').innerText = "_________________";
+            document.getElementById('dispYear').innerText = "________";
+        }
+
+        // 更新授权列表
+        const list = document.getElementById('powersList');
+        list.innerHTML = ''; // 清空
+
+        addPowerIfChecked('powerVehicles', '<strong>Motor Vehicles:</strong> To take possession of, use, sell, dispose of, or transfer ownership of any motor vehicles registered in my name. Includes signing NCO forms and representing me at Traffic Departments.');
+        
+        addPowerIfChecked('powerBanking', '<strong>Banking and Finance:</strong> To open, operate, and close bank accounts; to sign cheques; to deposit or withdraw funds; and to obtain bank statements.');
+        
+        addPowerIfChecked('powerProperty', '<strong>Movable Property & Debts:</strong> To recover all debts and goods belonging to me; and to sell, let, or dispose of any of my movable assets.');
+        
+        addPowerIfChecked('powerLegal', '<strong>Legal Proceedings & Contracts:</strong> To commence, prosecute, or defend any legal proceedings; to sign any contracts or deeds; and to settle disputes.');
+        
+        addPowerIfChecked('powerTax', '<strong>Taxation (SARS):</strong> To represent me before SARS, to sign tax returns, and to handle all tax obligations.');
+
+        addPowerIfChecked('powerMedical', '<strong>Medical Administration:</strong> To access medical records, communicate with medical professionals, and handle hospital/care facility administration.');
+    }
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (value && value.trim() !== "") {
+            el.innerText = value.toUpperCase();
+            el.style.textDecoration = "none";
+        } else {
+            el.innerText = "__________________________";
+        }
+    }
+
+    function addPowerIfChecked(checkboxId, textHTML) {
+        if (document.getElementById(checkboxId).checked) {
+            const li = document.createElement('li');
+            li.innerHTML = textHTML;
+            document.getElementById('powersList').appendChild(li);
+        }
+    }
+
+    // 初始化运行一次
+    updateDoc();
+</script>
+
+</body>
+</html>

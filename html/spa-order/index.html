@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Payslip Generator</title>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 React 和 ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <!-- 引入 Babel 以便在浏览器中编译 JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 引入 js-yaml 支持 YAML 格式 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+    <style>
+        /* 专门为打印优化的样式 */
+        @media print {
+            body { 
+                background-color: white !important; 
+                margin: 0;
+                padding: 0;
+            }
+            .print-hidden { 
+                display: none !important; 
+            }
+            .print-page-break { 
+                page-break-after: always; 
+                box-shadow: none !important;
+                border: none !important;
+                margin-bottom: 0 !important;
+                padding: 0 !important;
+            }
+            /* 确保背景颜色和边框在打印时能正常显示 (针对 Chrome/Edge) */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-black">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 默认示例数据
+        const DEFAULT_CONFIG = {
+          companyName: "Caseys Soul Therapy",
+          period: "9",
+          date: "30/9/2025"
+        };
+
+        const DEFAULT_DATA = [
+          {
+            "employeeCode": "01",
+            "employeeName": "Shalma Burricks",
+            "costCentre": "",
+            "incomeTaxNo": "",
+            "incomeItems": [
+              { "description": "Basic Salary", "quantity": "", "rate": "", "amount": "7,000" }
+            ],
+            "grossEarnings": "7,000",
+            "deductions": [
+              { "description": "UIF Contribution", "balance": "0.00", "amount": "70" }
+            ],
+            "totalDeductions": "70",
+            "nettPay": "6,930",
+            "accountCodes": {
+              "grossRemuneration": "7,000",
+              "employeesTax": "0.00"
+            }
+          }
+        ];
+
+        // 单个工资单组件 (根据你提供的代码修改)
+        function SinglePayslip({ data, config }) {
+          return (
+            <div className="print-page-break mx-auto max-w-4xl space-y-8 font-sans mb-12 bg-white p-8 shadow-lg">
+              {/* Header Section */}
+              <div className="border-2 border-black">
+                <div className="text-center border-b-2 border-black bg-gray-100 py-3">
+                  <div className="text-lg tracking-widest font-bold uppercase">Employee Payslip</div>
+                </div>
+                <div className="grid grid-cols-3 border-b-2 border-black">
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm font-bold">COMPANY NAME</div>
+                  </div>
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm font-bold">PERIOD</div>
+                  </div>
+                  <div className="px-4 py-2 text-center">
+                    <div className="text-sm font-bold">DATE</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 border-b-2 border-black">
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm">{config.companyName}</div>
+                  </div>
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm">{config.period}</div>
+                  </div>
+                  <div className="px-4 py-2 text-center">
+                    <div className="text-sm">{config.date}</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3">
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm font-bold">EMPLOYEE CODE</div>
+                  </div>
+                  <div className="border-r-2 border-black px-4 py-2 text-center">
+                    <div className="text-sm font-bold">EMPLOYEE NAME</div>
+                  </div>
+                  <div className="px-4 py-2 text-center">
+                    <div className="text-sm font-bold">COST CENTRE</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3">
+                  <div className="border-r-2 border-black px-4 py-1 text-center">
+                    <div className="text-sm">{data.employeeCode}</div>
+                  </div>
+                  <div className="border-r-2 border-black px-4 py-1 text-center">
+                    <div className="text-sm">{data.employeeName}</div>
+                  </div>
+                  <div className="px-4 py-1 text-center">
+                    <div className="text-sm">{data.costCentre || ''}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Payslip Section */}
+              <div className="border-2 border-black">
+                {/* Employee Details Grid */}
+                <div className="grid grid-cols-2 gap-4 border-b-2 border-black p-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="border-2 border-black px-3 py-1 text-xs font-bold w-32 text-center">EMPLOYEE CODE</div>
+                      <div className="text-sm">{data.employeeCode}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="border-2 border-black px-3 py-1 text-xs font-bold w-32 text-center">INCOME TAX NO</div>
+                      {data.incomeTaxNo && <div className="text-sm">{data.incomeTaxNo}</div>}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="border-2 border-black px-3 py-1 text-xs font-bold w-32 text-center">COMPANY NAME</div>
+                      <div className="text-sm">{config.companyName}</div>
+                    </div>
+                  </div>
+                  <div className="space-y-3 flex flex-col items-end">
+                    <div className="flex items-center gap-3 w-full justify-start">
+                      <div className="border-2 border-black px-3 py-1 text-xs font-bold w-32 text-center">EMPLOYEE NAME</div>
+                      <div className="text-sm">{data.employeeName}</div>
+                    </div>
+                    {/* RATE 和 NORMAL HRS 已被移除 */}
+                    <div className="ml-auto space-y-1 w-64 mt-4">
+                      <div className="flex items-center justify-between gap-8 border-2 border-black px-3 py-1">
+                        <div className="text-xs font-bold">PERIOD</div>
+                        <div className="text-sm">{config.period}</div>
+                      </div>
+                      <div className="flex items-center justify-between gap-8 border-2 border-black px-3 py-1">
+                        <div className="text-xs font-bold">DATE</div>
+                        <div className="text-sm">{config.date}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Income Section */}
+                <div className="border-b-2 border-black p-4">
+                  <div className="mb-3 flex justify-center">
+                    <div className="border-2 border-black px-6 py-1 text-sm font-bold">INCOME</div>
+                  </div>
+                  <div className="border-2 border-black">
+                    <div className="grid grid-cols-4 border-b-2 border-black bg-white">
+                      <div className="col-span-1 border-r-2 border-black px-3 py-2 text-xs font-bold">DESCRIPTION</div>
+                      <div className="border-r-2 border-black px-3 py-2 text-center text-xs font-bold">QUANTITY</div>
+                      <div className="border-r-2 border-black px-3 py-2 text-center text-xs font-bold">RATE</div>
+                      <div className="px-3 py-2 text-center text-xs font-bold">AMOUNT</div>
+                    </div>
+                    {(data.incomeItems || []).map((item, index) => (
+                      <div key={index} className="grid grid-cols-4">
+                        <div className="col-span-1 border-r-2 border-black px-3 py-2 text-sm">{item.description}</div>
+                        <div className="border-r-2 border-black px-3 py-2 text-center text-sm">{item.quantity || ''}</div>
+                        <div className="border-r-2 border-black px-3 py-2 text-center text-sm">{item.rate || ''}</div>
+                        <div className="px-3 py-2 text-right text-sm">{item.amount}</div>
+                      </div>
+                    ))}
+                    {(!data.incomeItems || data.incomeItems.length === 0) && <div className="h-8"></div>}
+                  </div>
+                </div>
+
+                {/* Gross Earnings */}
+                <div className="border-b-2 border-black px-4 py-3">
+                  <div className="flex items-center justify-end gap-4">
+                    <div className="border-2 border-black px-6 py-1 text-sm font-bold">GROSS EARNINGS</div>
+                    <div className="text-lg font-bold text-black font-mono">{data.grossEarnings}</div>
+                  </div>
+                </div>
+
+                {/* Deductions Section */}
+                <div className="border-b-2 border-black p-4">
+                  <div className="mb-3 flex justify-center">
+                    <div className="border-2 border-black px-6 py-1 text-sm font-bold">DEDUCTIONS</div>
+                  </div>
+                  <div className="border-2 border-black">
+                    <div className="grid grid-cols-3 border-b-2 border-black bg-white">
+                      <div className="col-span-1 border-r-2 border-black px-3 py-2 text-xs font-bold">DESCRIPTION</div>
+                      <div className="border-r-2 border-black px-3 py-2 text-center text-xs font-bold">BALANCE</div>
+                      <div className="px-3 py-2 text-center text-xs font-bold">AMOUNT</div>
+                    </div>
+                    {(data.deductions || []).map((item, index) => (
+                      <div key={index} className="grid grid-cols-3">
+                        <div className="col-span-1 border-r-2 border-black px-3 py-2 text-sm">{item.description}</div>
+                        <div className="border-r-2 border-black px-3 py-2 text-center text-sm font-mono">{item.balance || ''}</div>
+                        <div className="px-3 py-2 text-right text-sm font-mono">{item.amount}</div>
+                      </div>
+                    ))}
+                     {(!data.deductions || data.deductions.length === 0) && <div className="h-8"></div>}
+                  </div>
+                </div>
+
+                {/* Total Deductions */}
+                <div className="border-b-2 border-black px-4 py-3">
+                  <div className="flex items-center justify-end gap-4">
+                    <div className="border-2 border-black px-6 py-1 text-sm font-bold">TOTAL DEDUCTIONS</div>
+                    <div className="text-lg font-bold text-black font-mono">{data.totalDeductions}</div>
+                  </div>
+                </div>
+
+                {/* Nett Pay */}
+                <div className="border-b-2 border-black px-4 py-3 bg-blue-50/20">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm font-bold">NETT PAY</div>
+                    <div className="text-xl font-bold text-black font-mono">{data.nettPay}</div>
+                  </div>
+                </div>
+
+                {/* Account Codes */}
+                <div className="grid grid-cols-2">
+                  <div className="border-r-2 border-black px-3 py-3 flex flex-col justify-between">
+                    <div className="border-2 border-black px-2 py-1 text-xs text-center font-bold">3699 Gross Remuneration</div>
+                    <div className="mt-2 text-center text-sm font-mono">{data.accountCodes?.grossRemuneration || '0.00'}</div>
+                  </div>
+                  <div className="px-3 py-3 flex flex-col justify-between">
+                    <div className="border-2 border-black px-2 py-1 text-xs text-center font-bold">4103 Total Employee's Tax</div>
+                    <div className="mt-2 text-center text-sm font-mono">{data.accountCodes?.employeesTax || '0.00'}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        // Tab 组件
+        function TabButton({ active, onClick, children }) {
+          return (
+            <button
+              onClick={onClick}
+              className={`px-4 py-2 font-medium rounded-t-lg border-b-2 transition-colors ${
+                active
+                  ? 'border-blue-500 bg-white text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              {children}
+            </button>
+          );
+        }
+
+        // 表格编辑组件
+        function TableEditor({ employees, setEmployees, config, onUpdatePreview }) {
+          const [page, setPage] = useState(1);
+          const [newEmp, setNewEmp] = useState({ employeeCode: '', employeeName: '', incomeTaxNo: '', grossEarnings: '', paye: '', uif: '', nettPay: '' });
+          const PAGE_SIZE = 10;
+          const totalPages = Math.ceil(employees.length / PAGE_SIZE);
+          const currentEmployees = employees.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+          const updateEmployee = (index, field, value) => {
+            const actualIndex = (page - 1) * PAGE_SIZE + index;
+            const updated = [...employees];
+            updated[actualIndex] = { ...updated[actualIndex], [field]: value };
+            setEmployees(updated);
+          };
+
+          const deleteEmployee = (index) => {
+            const actualIndex = (page - 1) * PAGE_SIZE + index;
+            setEmployees(employees.filter((_, i) => i !== actualIndex));
+          };
+
+          const addEmployee = () => {
+            const defaults = config.fieldDefaults || {};
+            const newEmployee = {
+              employeeCode: newEmp.employeeCode || String(employees.length + 1).padStart(2, '0'),
+              employeeName: newEmp.employeeName,
+              costCentre: '',
+              incomeTaxNo: newEmp.incomeTaxNo || '',
+              incomeItems: [{ description: defaults.incomeDescription || 'Basic Salary', quantity: '', rate: '', amount: newEmp.grossEarnings || '0' }],
+              grossEarnings: newEmp.grossEarnings || '0',
+              deductions: [{ description: defaults.deductionDescription || 'UIF Contribution', balance: '0.00', amount: newEmp.uif || '0' }],
+              totalDeductions: newEmp.uif || '0',
+              nettPay: newEmp.nettPay || '0',
+              accountCodes: { grossRemuneration: newEmp.grossEarnings || '0', employeesTax: newEmp.paye || '0.00' }
+            };
+            setEmployees([...employees, newEmployee]);
+            setNewEmp({ employeeCode: '', employeeName: '', incomeTaxNo: '', grossEarnings: '', paye: '', uif: '', nettPay: '' });
+          };
+
+          return (
+            <div className="space-y-4">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100 border">
+                      <th className="p-2 border">ID</th>
+                      <th className="p-2 border">Name</th>
+                      <th className="p-2 border">Tax No</th>
+                      <th className="p-2 border">Gross</th>
+                      <th className="p-2 border">PAYE</th>
+                      <th className="p-2 border">UIF</th>
+                      <th className="p-2 border">Net</th>
+                      <th className="p-2 border">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentEmployees.map((emp, index) => (
+                      <tr key={index} className="border hover:bg-gray-50">
+                        <td className="p-1 border"><input className="w-16 p-1 border rounded" value={emp.employeeCode} onChange={(e) => updateEmployee(index, 'employeeCode', e.target.value)} /></td>
+                        <td className="p-1 border"><input className="w-40 p-1 border rounded" value={emp.employeeName} onChange={(e) => updateEmployee(index, 'employeeName', e.target.value)} /></td>
+                        <td className="p-1 border"><input className="w-28 p-1 border rounded" value={emp.incomeTaxNo || ''} onChange={(e) => updateEmployee(index, 'incomeTaxNo', e.target.value)} /></td>
+                        <td className="p-1 border"><input className="w-24 p-1 border rounded" value={emp.grossEarnings} onChange={(e) => updateEmployee(index, 'grossEarnings', e.target.value)} /></td>
+                        <td className="p-1 border"><input className="w-20 p-1 border rounded" value={emp.accountCodes?.employeesTax || '0.00'} onChange={(e) => updateEmployee(index, 'accountCodes', { ...emp.accountCodes, employeesTax: e.target.value })} /></td>
+                        <td className="p-1 border"><input className="w-20 p-1 border rounded" value={emp.deductions?.[0]?.amount || '0'} onChange={(e) => {
+                          const newDed = [...(emp.deductions || [])];
+                          newDed[0] = { ...newDed[0], amount: e.target.value };
+                          updateEmployee(index, 'deductions', newDed);
+                          updateEmployee(index, 'totalDeductions', e.target.value);
+                        }} /></td>
+                        <td className="p-1 border"><input className="w-24 p-1 border rounded" value={emp.nettPay} onChange={(e) => updateEmployee(index, 'nettPay', e.target.value)} /></td>
+                        <td className="p-1 border text-center">
+                          <button onClick={() => deleteEmployee(index)} className="text-red-500 hover:text-red-700 px-2">🗑️</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Total: {employees.length} employees</span>
+                <div className="flex gap-2">
+                  <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1} className="px-3 py-1 border rounded disabled:opacity-50">←</button>
+                  <span className="px-3 py-1">Page {page} of {totalPages || 1}</span>
+                  <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page >= totalPages} className="px-3 py-1 border rounded disabled:opacity-50">→</button>
+                </div>
+              </div>
+
+              {/* Add New Employee */}
+              <div className="border-t pt-4">
+                <h3 className="font-medium mb-2">Add New Employee</h3>
+                <div className="flex flex-wrap gap-2">
+                  <input className="p-2 border rounded w-20" placeholder="ID" value={newEmp.employeeCode} onChange={(e) => setNewEmp({ ...newEmp, employeeCode: e.target.value })} />
+                  <input className="p-2 border rounded w-40" placeholder="Name" value={newEmp.employeeName} onChange={(e) => setNewEmp({ ...newEmp, employeeName: e.target.value })} />
+                  <input className="p-2 border rounded w-28" placeholder="Tax No" value={newEmp.incomeTaxNo} onChange={(e) => setNewEmp({ ...newEmp, incomeTaxNo: e.target.value })} />
+                  <input className="p-2 border rounded w-24" placeholder="Gross" value={newEmp.grossEarnings} onChange={(e) => setNewEmp({ ...newEmp, grossEarnings: e.target.value })} />
+                  <input className="p-2 border rounded w-20" placeholder="PAYE" value={newEmp.paye} onChange={(e) => setNewEmp({ ...newEmp, paye: e.target.value })} />
+                  <input className="p-2 border rounded w-20" placeholder="UIF" value={newEmp.uif} onChange={(e) => setNewEmp({ ...newEmp, uif: e.target.value })} />
+                  <input className="p-2 border rounded w-24" placeholder="Net" value={newEmp.nettPay} onChange={(e) => setNewEmp({ ...newEmp, nettPay: e.target.value })} />
+                  <button onClick={addEmployee} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add</button>
+                </div>
+              </div>
+
+              {/* 更新预览按钮 */}
+              <div className="flex justify-end pt-4">
+                <button
+                  onClick={() => onUpdatePreview(employees)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow-sm transition-colors"
+                >
+                  🔄 更新预览
+                </button>
+              </div>
+            </div>
+          );
+        }
+
+        // 简化版 YAML/JSON 格式示例
+        const SIMPLE_EXAMPLE = `# 全局配置
+companyName: Caseys Soul Therapy
+period: "9"
+date: 30/9/2025
+
+# 字段默认值 (可选)
+fieldDefaults:
+  incomeDescription: Basic Salary
+  deductionDescription: UIF Contribution
+
+# 员工数据
+employees:
+  - id: "01"
+    name: Shalma Burricks
+    incomeTaxNo: "1234567890"
+    gross: 7000
+    paye: 0
+    uif: 70
+    net: 6930`;
+
+        // 将员工数据转换为简化格式
+        function generateSimpleFormat(employees, config) {
+          const lines = [];
+          lines.push('# 全局配置');
+          lines.push(`companyName: ${config.companyName || 'Caseys Soul Therapy'}`);
+          lines.push(`period: "${config.period || '9'}"`);
+          lines.push(`date: ${config.date || '30/9/2025'}`);
+          lines.push('');
+          lines.push('# 字段默认值 (可选)');
+          const fieldDefaults = config.fieldDefaults || {};
+          lines.push('fieldDefaults:');
+          lines.push(`  incomeDescription: ${fieldDefaults.incomeDescription || 'Basic Salary'}`);
+          lines.push(`  deductionDescription: ${fieldDefaults.deductionDescription || 'UIF Contribution'}`);
+          lines.push('');
+          lines.push('# 员工数据');
+          lines.push('employees:');
+          employees.forEach(emp => {
+            lines.push(`  - id: "${emp.employeeCode}"`);
+            lines.push(`    name: ${emp.employeeName}`);
+            lines.push(`    incomeTaxNo: "${emp.incomeTaxNo || ''}"`);
+            lines.push(`    gross: ${parseFloat(emp.grossEarnings) || 0}`);
+            lines.push(`    paye: ${parseFloat(emp.accountCodes?.employeesTax) || 0}`);
+            lines.push(`    uif: ${parseFloat(emp.deductions?.[0]?.amount) || 0}`);
+            lines.push(`    net: ${parseFloat(emp.nettPay) || 0}`);
+          });
+          return lines.join('\n');
+        }
+
+        // 解析简化格式为完整数据
+        function parseSimpleFormat(input, config) {
+          try {
+            // 先尝试解析为 JSON
+            const jsonData = JSON.parse(input);
+            return { success: true, employees: Array.isArray(jsonData) ? jsonData : [jsonData] };
+          } catch (e) {}
+
+          try {
+            // 尝试 YAML 解析
+            const yaml = jsyaml.load(input);
+            if (yaml.employees) {
+              const fieldDefaults = yaml.fieldDefaults || {};
+              const employees = yaml.employees.map((emp, index) => ({
+                employeeCode: emp.id || emp.employeeCode || String(index + 1).padStart(2, '0'),
+                employeeName: emp.name || emp.employeeName || '',
+                costCentre: emp.costCentre || '',
+                incomeTaxNo: emp.incomeTaxNo || '',
+                incomeItems: [{ description: fieldDefaults.incomeDescription || 'Basic Salary', quantity: '', rate: '', amount: String(emp.gross || emp.grossEarnings || 0) }],
+                grossEarnings: String(emp.gross || emp.grossEarnings || 0),
+                deductions: [{ description: fieldDefaults.deductionDescription || 'UIF Contribution', balance: '0.00', amount: String(emp.uif || 0) }],
+                totalDeductions: String(emp.uif || 0),
+                nettPay: String(emp.net || emp.nettPay || 0),
+                accountCodes: { grossRemuneration: String(emp.gross || emp.grossEarnings || 0), employeesTax: String(emp.paye || 0) }
+              }));
+              return { success: true, employees };
+            }
+          } catch (e) {}
+          return { success: false, error: '格式解析失败，请检查 JSON 或 YAML 格式' };
+        }
+
+        // 主应用组件
+        function App() {
+          const [activeTab, setActiveTab] = useState('table'); // 'code' or 'table'
+          const [config, setConfig] = useState(DEFAULT_CONFIG);
+          const [codeInput, setCodeInput] = useState(SIMPLE_EXAMPLE);
+          const [employees, setEmployees] = useState(DEFAULT_DATA);
+          const [error, setError] = useState('');
+
+          const handleCodeImport = () => {
+            const result = parseSimpleFormat(codeInput, config);
+            if (result.success) {
+              setEmployees(result.employees);
+              // 更新全局配置
+              try {
+                const yaml = jsyaml.load(codeInput);
+                if (yaml.companyName || yaml.period || yaml.date) {
+                  setConfig(prev => ({
+                    ...prev,
+                    companyName: yaml.companyName || prev.companyName,
+                    period: yaml.period || prev.period,
+                    date: yaml.date || prev.date
+                  }));
+                }
+              } catch (e) {}
+              setError('');
+            } else {
+              setError(result.error);
+            }
+          };
+
+          const handleTableUpdatePreview = (tableEmployees) => {
+            const yamlOutput = generateSimpleFormat(tableEmployees, config);
+            setCodeInput(yamlOutput);
+            setActiveTab('code');
+          };
+
+          const handlePrint = () => {
+            window.print();
+          };
+
+          return (
+            <div className="pb-20">
+              {/* 控制面板 (打印时自动隐藏) */}
+              <div className="print-hidden sticky top-0 z-50 bg-white shadow-md border-b border-gray-200 p-6 mb-8">
+                <div className="max-w-6xl mx-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <h1 className="text-2xl font-bold text-gray-800">Batch Payslip Generator</h1>
+                    <button
+                      onClick={handlePrint}
+                      className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-colors"
+                    >
+                      🖨️ 生成 PDF / Print
+                    </button>
+                  </div>
+
+                  {/* Tab 切换 */}
+                  <div className="flex gap-2 mb-4 border-b">
+                    <TabButton active={activeTab === 'table'} onClick={() => setActiveTab('table')}>📋 表格编辑</TabButton>
+                    <TabButton active={activeTab === 'code'} onClick={() => setActiveTab('code')}>📝 代码导入 (YAML/JSON)</TabButton>
+                  </div>
+
+                  {activeTab === 'table' ? (
+                    <TableEditor employees={employees} setEmployees={setEmployees} config={config} onUpdatePreview={handleTableUpdatePreview} />
+                  ) : (
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <div className="flex-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          输入 YAML 或 JSON 数据
+                        </label>
+                        <textarea
+                          className="w-full h-48 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                          value={codeInput}
+                          onChange={(e) => setCodeInput(e.target.value)}
+                          placeholder="Paste your YAML or JSON here..."
+                        ></textarea>
+                      </div>
+                      <div className="flex flex-col justify-end w-full md:w-auto pb-1">
+                        {error && (
+                          <div className="text-red-500 text-sm mb-2 font-medium bg-red-50 p-2 rounded">
+                            ⚠️ {error}
+                          </div>
+                        )}
+                        <button
+                          onClick={handleCodeImport}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow-sm transition-colors whitespace-nowrap"
+                        >
+                          🔄 更新预览
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 工资单列表区 */}
+              <div className="max-w-5xl mx-auto px-4">
+                {employees.map((employee, index) => (
+                  <SinglePayslip key={`${employee.employeeCode}-${index}`} data={employee} config={config} />
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

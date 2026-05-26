@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Letter for Fund Transfer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { background-color: white; padding: 0 !important; }
+            .no-print { display: none; }
+            .print-container { 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 1.5rem !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            p, td { font-size: 11pt !important; line-height: 1.4 !important; }
+            h1 { font-size: 14pt !important; }
+        }
+        body { font-family: 'Times New Roman', Times, serif; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-8">
+
+    <!-- 操作提示（不打印） -->
+    <div class="max-w-4xl mx-auto mb-4 p-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 no-print rounded shadow-sm text-sm">
+        <p class="font-bold">修改说明：</p>
+        <p>1. 删除了银行盖章区，改为双人签名区（授权人 + 被授权代表）。<br>
+           2. 建议两人在相应位置亲笔签名（或使用电子签名），这符合标准银行对代办业务的审核逻辑。</p>
+        <button onclick="window.print()" class="mt-2 bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition text-sm">打印 / 导出 PDF</button>
+    </div>
+
+    <!-- 信件正文 -->
+    <div class="max-w-4xl mx-auto bg-white p-8 sm:p-12 shadow-lg border border-gray-200 print-container">
+        
+        <!-- 信头 -->
+        <div class="text-right text-gray-600 mb-4 text-sm">
+            <p class="font-bold">Date: February 6, 2026</p>
+        </div>
+
+        <div class="mb-4">
+            <p class="font-bold text-xs uppercase text-gray-400">Recipient:</p>
+            <p class="font-bold">The Branch Manager</p>
+            <p>Standard Bank of South Africa</p>
+        </div>
+
+        <div class="mb-6 text-center">
+            <h1 class="text-lg font-bold border-b-2 border-black pb-1 inline-block uppercase tracking-tight">Authorization for Account Closure and Fund Transfer</h1>
+        </div>
+
+        <!-- 正文 -->
+        <div class="space-y-4 text-justify leading-snug text-[11pt]">
+            <p>Dear Sir/Madam,</p>
+
+            <p>
+                I, <span class="font-bold">Cuilian Chen</span> (Passport No: <span class="border-b border-black px-1">EG4309935</span>), 
+                am the legal owner of the account held with Standard Bank. Due to my current hospitalization and medical condition, 
+                I am physically unable to attend the bank branch in person to manage my banking affairs.
+            </p>
+
+            <p>
+                I hereby authorize my son, <span class="font-bold">Zhenli Lai</span> (Passport No: <span class="border-b border-black px-1">EB5777709</span>), 
+                to act as my authorized representative to facilitate the closure of my Standard Bank account and the immediate transfer 
+                of all remaining balances to the following **First National Bank (FNB)** business account:
+            </p>
+
+            <!-- 目标账户详情表格 -->
+            <div class="bg-gray-50 p-4 rounded border border-gray-200">
+                <table class="w-full text-sm">
+                    <tr class="border-b border-gray-200">
+                        <td class="py-1 text-gray-600">Account Holder:</td>
+                        <td class="py-1 font-bold uppercase text-right">CASEYS SOUL THERAPY (PTY) LTD</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-1 text-gray-600">Account Number:</td>
+                        <td class="py-1 font-bold text-right">62791472948</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-1 text-gray-600">Bank Name:</td>
+                        <td class="py-1 font-bold text-right">First National Bank (FNB)</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-1 text-gray-600">Branch Name:</td>
+                        <td class="py-1 font-bold text-right">VINEYARD ROAD (204209)</td>
+                    </tr>
+                    <tr>
+                        <td class="py-1 text-gray-600">SWIFT Code:</td>
+                        <td class="py-1 font-bold text-right">FIRNZAJJ</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>
+                Please find the attached FNB Account Confirmation Letter (Reference: <span class="font-bold">VODS9H14FWTP</span>) 
+                and copies of our identity documents for your verification. I confirm that all actions taken by my representative regarding this specific transfer are fully authorized by me.
+            </p>
+
+            <p>I appreciate your prompt assistance and understanding in this urgent matter.</p>
+        </div>
+
+        <!-- 签名区 -->
+        <div class="mt-12 grid grid-cols-2 gap-12">
+            <!-- 授权人签名 -->
+            <div class="space-y-2">
+                <p class="text-sm font-bold text-gray-700">Grantor (Account Holder):</p>
+                <div class="h-16 border-b border-black flex items-end pb-1 italic text-gray-300 text-xs">
+                    (Signature of Cuilian Chen)
+                </div>
+                <p class="font-bold text-sm">Cuilian Chen</p>
+                <p class="text-[10px] text-gray-500 uppercase">Passport: EG4309935</p>
+            </div>
+            
+            <!-- 被授权代表签名 -->
+            <div class="space-y-2">
+                <p class="text-sm font-bold text-gray-700">Representative (Authorized Party):</p>
+                <div class="h-16 border-b border-black flex items-end pb-1 italic text-gray-300 text-xs">
+                    (Signature of Zhenli Lai)
+                </div>
+                <p class="font-bold text-sm">Zhenli Lai</p>
+                <p class="text-[10px] text-gray-500 uppercase">Passport: EB5777709</p>
+            </div>
+        </div>
+
+        <!-- 脚注 -->
+        <div class="mt-12 pt-4 border-t border-gray-100 text-[9px] text-gray-400">
+            <p>Disclaimer: This document is strictly for the purpose of fund transfer authorization between the specified Standard Bank and FNB accounts due to medical necessity.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

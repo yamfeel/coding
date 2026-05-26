@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deed of Donation (Vehicle Gift)</title>
+    <style>
+        /* 紧凑版A4打印风格 */
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10.5pt; /* 减小字号以适应一页 */
+            line-height: 1.25; /* 减小行高 */
+            margin: 0;
+            padding: 0;
+            color: #000;
+            background-color: #fff;
+        }
+
+        .container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 10mm 15mm; /* 减小边距 */
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 15pt;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        h2 {
+            text-align: center;
+            font-size: 11pt;
+            font-weight: normal;
+            margin-top: 0;
+            margin-bottom: 15px; /* 减小间距 */
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 10.5pt;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            margin-top: 15px; /* 减小间距 */
+            margin-bottom: 8px;
+            padding-bottom: 2px;
+        }
+
+        .filled-data {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* 布局辅助 */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px; /* 减小行间距 */
+        }
+        .label {
+            width: 140px;
+            font-weight: bold;
+        }
+        .content {
+            flex: 1;
+        }
+        
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 10pt;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 5px; /* 减小内边距 */
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        td {
+            height: 20px; /* 减小高度 */
+        }
+
+        /* 列表优化 */
+        ol {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 6px; /* 减小列表项间距 */
+        }
+
+        /* 签名区 */
+        .signature-section {
+            margin-top: 25px; /* 减小间距 */
+            display: flex;
+            justify-content: space-between;
+        }
+        .sig-box {
+            width: 45%;
+        }
+        .line {
+            border-bottom: 1px solid #000;
+            margin-top: 30px; /* 减小签字线距离 */
+            margin-bottom: 5px;
+        }
+
+        /* 底部声明 */
+        .footer-note {
+            margin-top: 20px;
+            font-size: 9pt;
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-top: 5px;
+        }
+
+        @media print {
+            .container { width: 100%; padding: 0; border: none; }
+            @page { margin: 10mm; size: A4; } /* 强制窄边距 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Deed of Donation</h1>
+    <h2>(Agreement of Gift - Motor Vehicle)</h2>
+
+    <p style="margin: 5px 0;">This agreement is entered into by and between:</p>
+
+    <!-- 赠与人 (Donor) -->
+    <div class="section-title">1. The Donor (Person giving the vehicle)</div>
+    <div class="row">
+        <span class="label">Full Name:</span>
+        <span class="content filled-data">CUILIAN CHEN</span>
+    </div>
+    <div class="row">
+        <span class="label">Identity Number:</span>
+        <span class="content filled-data">EG4309925</span>
+    </div>
+    <div class="row">
+        <span class="label">Address:</span>
+        <span class="content filled-data">89 RIVERSDALE ROAD, LANSDOWNE, CAPE TOWN</span>
+    </div>
+
+    <p style="text-align: center; font-style: italic; margin: 8px 0;">- AND -</p>
+
+    <!-- 受赠人 (Donee) -->
+    <div class="section-title">2. The Donee (Person receiving the vehicle)</div>
+    <div class="row">
+        <span class="label">Full Name:</span>
+        <span class="content filled-data">ZHENLI LAI</span>
+    </div>
+    <div class="row">
+        <span class="label">Identity Number:</span>
+        <span class="content filled-data">EB5777709</span>
+    </div>
+    <div class="row">
+        <span class="label">Relationship:</span>
+        <span class="content filled-data">SON</span>
+    </div>
+    <div class="row">
+        <span class="label">Address:</span>
+        <span class="content filled-data">89 RIVERSDALE ROAD, LANSDOWNE, CAPE TOWN</span>
+    </div>
+
+    <!-- 车辆信息 -->
+    <div class="section-title">3. Subject of Donation</div>
+    <p style="margin: 5px 0;">The Donor hereby voluntarily donates, alienates, and transfers full ownership of the following motor vehicle(s) to the Donee:</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%">Make & Model</th>
+                <th style="width: 15%">Year</th>
+                <th style="width: 30%">VIN / Chassis Number</th>
+                <th style="width: 30%">Registration Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td> <!-- 手写 -->
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 条款 -->
+    <div class="section-title">4. Terms and Conditions</div>
+    <ol>
+        <li>
+            <b>Value of Donation:</b> The parties agree that the vehicle is donated out of natural love and affection. The value for the transaction is recorded as <b>R0.00 (Zero Rand)</b>.
+        </li>
+        <li>
+            <b>Transfer of Ownership:</b> Ownership, risk, and benefit of the vehicle shall pass to the Donee upon signature of this agreement.
+        </li>
+        <li>
+            <b>"Voetstoots":</b> The vehicle is donated in its current condition ("as is"), without any warranties regarding its mechanical condition.
+        </li>
+        <li>
+            <b>Acceptance:</b> The Donee gratefully accepts the donation of the vehicle(s) listed above.
+        </li>
+    </ol>
+
+    <!-- 签名 -->
+    <div class="signature-section">
+        <div class="sig-box">
+            <div style="margin-bottom: 5px;">Signed at <b>CAPE TOWN</b> on this ______ day of ________________ 20____.</div>
+            <div class="line"></div>
+            <b>Signature of DONOR (Mother)</b><br>
+            CUILIAN CHEN
+        </div>
+
+        <div class="sig-box">
+            <div style="margin-bottom: 5px;">Signed at <b>CAPE TOWN</b> on this ______ day of ________________ 20____.</div>
+            <div class="line"></div>
+            <b>Signature of DONEE (Son)</b><br>
+            ZHENLI LAI
+        </div>
+    </div>
+    
+    <!-- 证人 (可选但推荐) -->
+    <div style="margin-top: 20px;">
+        <div style="font-weight: bold;">As Witnesses:</div>
+        <div style="display: flex; gap: 20px; margin-top: 5px;">
+            <div style="flex: 1; border-bottom: 1px solid #000; height: 25px;"></div>
+            <div style="flex: 1; border-bottom: 1px solid #000; height: 25px;"></div>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1; font-size: 9pt;">Witness 1 Name & Signature</div>
+            <div style="flex: 1; font-size: 9pt;">Witness 2 Name & Signature</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

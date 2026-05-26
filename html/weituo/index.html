@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Will and Testament - Cuilian Chen</title>
+    <style>
+        /* 页面基础设置 */
+        body {
+            background-color: #f0f0f0;
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 20px;
+            color: #000;
+        }
+
+        /* 打印按钮和提示栏样式（打印时会自动隐藏） */
+        .control-panel {
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .btn-print {
+            background-color: white;
+            color: #d32f2f;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        .btn-print:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* A4 纸张模拟 - 超紧凑版 */
+        .page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm; /* A4 高度 */
+            margin: 0 auto;
+            /* 进一步减小上下边距，腾出更多垂直空间 */
+            padding: 15mm 20mm 30mm 20mm; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* 排版样式 - 紧凑调整 */
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16pt; /* 减小标题字号 */
+            margin-top: 0;
+            margin-bottom: 10px; /* 减少间距 */
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 11pt; /* 减小标题字号 */
+            text-transform: uppercase;
+            margin-top: 10px; /* 减少间距 */
+            margin-bottom: 4px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 2px;
+        }
+
+        p, li {
+            font-size: 10.5pt; /* 字号微调至 10.5pt，依然清晰可读 */
+            line-height: 1.25; /* 行距进一步调紧 */
+            margin-bottom: 5px; /* 段落间距调小 */
+            text-align: justify;
+        }
+
+        ol {
+            padding-left: 20px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        /* 强调文本 */
+        .bold {
+            font-weight: bold;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* 签名区域样式 - 紧凑版 */
+        .signature-section {
+            margin-top: 15px; /* 减少与正文的距离 */
+            page-break-inside: avoid; /* 尽量不分页，现在空间够了应该不会跳页 */
+        }
+
+        .signature-line {
+            border-top: 1px solid black;
+            width: 60%; /* 缩短线条长度 */
+            margin-top: 20px; /* 签字空间 */
+            margin-bottom: 2px;
+        }
+
+        .witness-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* 减少见证人区域间距 */
+        }
+
+        .witness-box {
+            width: 48%;
+        }
+        
+        .witness-details {
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        /* 底部简签区域 (Initials) */
+        .initials-footer {
+            position: absolute;
+            bottom: 10mm; /* 稍微靠下 */
+            right: 20mm;
+            text-align: right;
+            font-size: 9pt;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+        }
+        
+        .initial-box {
+            display: inline-block;
+            border: 1px solid #000;
+            width: 35px;
+            height: 20px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        /* 打印专用样式 */
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .control-panel {
+                display: none;
+            }
+            .page {
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 15mm 15mm 25mm 15mm; /* 打印时同样保持紧凑边距 */
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部操作栏 -->
+    <div class="control-panel no-print">
+        <strong>⚠️ 紧急操作指南：</strong> 已进一步压缩排版，确保在一页内。<br>
+        打印后，请母亲和两位见证人（不能是子女）在右下角方框处简签，在下方横线上签全名。
+        <button class="btn-print" onclick="window.print()">🖨️ 打印遗嘱 / Print Will</button>
+    </div>
+
+    <!-- 遗嘱正文页 -->
+    <div class="page" contenteditable="true">
+        
+        <h1>LAST WILL AND TESTAMENT</h1>
+
+        <p>I, the undersigned,</p>
+
+        <p class="bold uppercase" style="text-align: center; font-size: 12pt; margin-top: 5px; margin-bottom: 5px;">CUILIAN CHEN</p>
+        
+        <p style="text-align: center; margin-bottom: 8px;">
+            Passport Number: <span class="bold">EG4309935</span><br>
+            Address: 89 Riversdale Road, Lansdowne, Cape Town, South Africa
+        </p>
+
+        <p>(hereinafter referred to as the "Testator") hereby declare this to be my Last Will and Testament.</p>
+
+        <h2>1. REVOCATION</h2>
+        <p>I hereby revoke, cancel, and annul all Wills, Codicils, and other testamentary dispositions previously made by me, either jointly or severally. I declare this to be my final Will.</p>
+
+        <h2>2. APPOINTMENT OF EXECUTORS</h2>
+        <p>I nominate and appoint my children:</p>
+        <ul style="margin-left: 20px; margin-bottom: 2px;">
+            <li><span class="bold">1. LAI, ZHENLI</span> (Passport Number: EB5777709)</li>
+            <li><span class="bold">2. LAI, ZHENYE</span> (Passport Number: EN3608037)</li>
+        </ul>
+        <p>to be the Executors of my Estate. I grant them the power of assumption. I direct that my Executors shall not be required to furnish security to the Master of the High Court for the proper administration of my Estate.</p>
+
+        <h2>3. SPECIAL BEQUESTS (BUSINESS & COMPANY)</h2>
+        <p>I hereby bequeath the following specific assets to my children, <span class="bold">LAI, ZHENLI</span> and <span class="bold">LAI, ZHENYE</span>, in equal shares:</p>
+        <ol>
+            <li>
+                <span class="bold">The Company:</span> My entire shareholding, interests, and loan accounts in the company known as <span class="bold">CASEYS SOUL THERAPY PTY LTD</span> (Registration Number: <span class="bold">2016/486917/07</span>).
+            </li>
+            <li>
+                <span class="bold">The Business:</span> The business trading as <span class="bold">CHINESE SOUL THERAPY</span>, situated at <span class="bold">1 A Cavendish Square, Claremont, Cape Town</span>, including all its assets, stock, equipment, goodwill, bank accounts, and lease agreements associated with it.
+            </li>
+        </ol>
+
+        <h2>4. RESIDUE OF ESTATE</h2>
+        <p>I bequeath the rest, residue, and remainder of my Estate, wheresoever situated and of whatsoever nature (including cash, personal effects, and other properties), to my children <span class="bold">LAI, ZHENLI</span> and <span class="bold">LAI, ZHENYE</span>, in equal shares.</p>
+
+        <h2>5. ATTESTATION</h2>
+        <p>
+            SIGNED at _______________________ (Place) on this _______ day of _________________ 2025, in the presence of the undersigned witnesses, who signed in my presence and in the presence of each other, all being present at the same time.
+        </p>
+
+        <!-- 签名区域 -->
+        <div class="signature-section">
+            
+            <!-- 立遗嘱人签名 -->
+            <div style="margin-bottom: 20px;">
+                <div class="signature-line" style="width: 50%;"></div>
+                <div class="bold">TESTATOR: CUILIAN CHEN</div>
+                <div style="font-size: 9pt; color: #555;">(Sign Full Name Here / 在此处签全名)</div>
+            </div>
+
+            <p style="font-style: italic; font-size: 9pt; margin-top: 5px; margin-bottom: 5px;">
+                AS WITNESSES (We confirm we are present together with the Testator):
+            </p>
+
+            <!-- 见证人签名 -->
+            <div class="witness-row">
+                <!-- 见证人 1 -->
+                <div class="witness-box">
+                    <div class="signature-line"></div>
+                    <div class="bold" style="font-size: 10pt;">WITNESS 1 (e.g., Priest)</div>
+                    <div class="witness-details">Name: ____________________</div>
+                    <div class="witness-details">ID: ______________________</div>
+                </div>
+
+                <!-- 见证人 2 -->
+                <div class="witness-box">
+                    <div class="signature-line"></div>
+                    <div class="bold" style="font-size: 10pt;">WITNESS 2 (Not a family member)</div>
+                    <div class="witness-details">Name: ____________________</div>
+                    <div class="witness-details">ID: ______________________</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 底部简签区域 -->
+        <div class="initials-footer">
+            Please Initial Here (简签): 
+            <div class="initial-box"></div>
+            <div class="initial-box"></div>
+            <div class="initial-box"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

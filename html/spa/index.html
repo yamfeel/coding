@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chinese Soultherapy Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Font Setup */
+      body {
+        font-family: "Noto Sans", sans-serif;
+        color: #333;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .serif-font {
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      .chinese-font {
+        font-family: "Noto Serif SC", serif;
+      }
+
+      /* Leader dots for price lists */
+      .price-row {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 0.25rem;
+      }
+
+      .item-name {
+        flex-shrink: 0;
+      }
+
+      .dots {
+        flex-grow: 1;
+        border-bottom: 2px dotted #9ca3af;
+        margin: 0 0.5rem;
+        position: relative;
+        top: -4px;
+      }
+
+      .price {
+        flex-shrink: 0;
+        font-weight: 600;
+      }
+
+      /* Specific Brand Color */
+      .bg-brand {
+        background-color: #6b9eaa;
+      }
+      .text-brand {
+        color: #6b9eaa;
+      }
+      .border-brand {
+        border-color: #6b9eaa;
+      }
+
+      /* Print Specifics */
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+        body {
+          background: white;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .page {
+          box-shadow: none;
+          margin: 0;
+          width: 100%;
+          height: 297mm; /* Force A4 height */
+          page-break-after: always;
+          border: none;
+          overflow: hidden;
+        }
+        /* Ensure last page doesn't spawn an extra blank one */
+        .page:last-child {
+          page-break-after: auto;
+        }
+      }
+
+      /* Screen Preview Styling */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 20px auto;
+        background: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Image Gradient Mask for Page 2 - Revised 
+           Uses a radial gradient (ellipse) positioned at the top right.
+           Content is visible (black) at top-right, fading to transparent at bottom-left.
+        */
+      .fade-ellipse {
+        mask-image: radial-gradient(
+          ellipse 90% 100% at 90% 1%,
+          black 40%,
+          transparent 100%
+        );
+        /* -webkit-mask-image: radial-gradient(ellipse 90% 100% at 90% 10%, black 40%, transparent 100%); */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Control Bar -->
+    <div class="no-print fixed top-4 right-4 z-50 flex gap-2">
+      <button
+        onclick="window.print()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg flex items-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path
+            d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+          ></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Print / Export PDF
+      </button>
+    </div>
+
+    <!-- PAGE 1 -->
+    <div class="page" id="page1">
+      <!-- Header -->
+      <header class="bg-brand text-white text-center py-6 px-4">
+        <h1 class="text-4xl font-bold mb-2 serif-font tracking-wide">
+          CHINESE
+        </h1>
+        <h2 class="text-4xl font-bold mb-4 serif-font tracking-wide">
+          SOUL THERAPY & FEET
+        </h2>
+        <div class="w-32 h-1 bg-white mx-auto mb-3"></div>
+        <h3 class="text-5xl chinese-font font-medium">中国养生馆</h3>
+      </header>
+
+      <!-- Content -->
+      <div
+        class="flex-grow px-10 py-6 grid grid-cols-2 gap-10 text-sm leading-snug"
+      >
+        <!-- Left Column -->
+        <div class="space-y-4">
+          <!-- Section 1 -->
+          <section>
+            <h4
+              class="font-bold text-base mb-2 border-b-2 border-brand pb-1 inline-block w-full"
+            >
+              Moxibustion essential oil detoxification
+            </h4>
+            <div class="space-y-1">
+              <div class="price-row">
+                <span class="item-name">Chin and Neck detox (30min)</span
+                ><span class="dots"></span><span class="price">R620</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Back detox (45min)</span
+                ><span class="dots"></span><span class="price">R840</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Back detox (60min)</span
+                ><span class="dots"></span><span class="price">R980</span>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div class="price-row">
+              <span class="item-name font-bold">Body Scrub (30min)</span
+              ><span class="dots"></span><span class="price">R380</span>
+            </div>
+          </section>
+
+          <section class="text-xs font-semibold my-2">
+            <p>(Hot stone plus R80) Medicated Oil plus R60)</p>
+            <div class="price-row mt-1">
+              <span class="item-name">Moxibustion treatment (30min)</span
+              ><span class="dots"></span><span class="price">R480</span>
+            </div>
+            <p class="text-right">/ 45mins R650 / 60min R780</p>
+          </section>
+
+          <section>
+            <h4
+              class="font-bold text-xl mb-2 border-b-2 border-brand pb-1 inline-block w-full"
+            >
+              Massage
+            </h4>
+            <div class="space-y-1 text-sm">
+              <div class="price-row">
+                <span class="item-name">1. Back Neck & Shoulders (30min)</span
+                ><span class="dots"></span><span class="price">R390</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">2. Back Neck & Shoulders (45min)</span
+                ><span class="dots"></span><span class="price">R460</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">3. Back Neck & Shoulders (60min)</span
+                ><span class="dots"></span><span class="price">R560</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">4. Full Body Massage (45min)</span
+                ><span class="dots"></span><span class="price">R490</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">5. Full Body Massage (60min)</span
+                ><span class="dots"></span><span class="price">R570</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">6. Full Body Massage (90min)</span
+                ><span class="dots"></span><span class="price">R720</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">7. Full Body Massage (120min)</span
+                ><span class="dots"></span><span class="price">R950</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">8. Head Massage (20min)</span
+                ><span class="dots"></span><span class="price">R290</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">9. Head Massage (30min)</span
+                ><span class="dots"></span><span class="price">R350</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">10. Arms Massage (20min)</span
+                ><span class="dots"></span><span class="price">R290</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">11. Arms Massage (30min)</span
+                ><span class="dots"></span><span class="price">R350</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">12. Legs Massage (30min)</span
+                ><span class="dots"></span><span class="price">R390</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">13. Legs Massage (45min)</span
+                ><span class="dots"></span><span class="price">R460</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">14. Feet Massage (30min)</span
+                ><span class="dots"></span><span class="price">R280</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">15. Feet & Calves Massage (45min)</span
+                ><span class="dots"></span><span class="price">R380</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name"
+                  >16. Feet & Shoulders Massage(45+15min)</span
+                ><span class="dots"></span><span class="price">R460</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">17. Cupping (20min)</span
+                ><span class="dots"></span><span class="price">R290</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-5">
+          <section>
+            <h4 class="font-bold text-base mb-1">
+              Chinese Foot Professional Treatment
+            </h4>
+            <div class="price-row">
+              <span class="item-name">Pedicure From</span
+              ><span class="dots"></span><span class="price">R380</span>
+            </div>
+          </section>
+
+          <section>
+            <h4 class="font-bold text-base mb-1">Hands & Feet Treatments</h4>
+            <div class="price-row">
+              <span class="item-name">Pedi + Paint</span
+              ><span class="dots"></span><span class="price">R420</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              Cleaning of heals nail care + polish
+            </p>
+          </section>
+
+          <section>
+            <h4 class="font-bold text-base mb-1">
+              Kids treatments 12 years an under
+            </h4>
+            <div class="price-row">
+              <span class="item-name">Girls</span><span class="dots"></span
+              ><span class="price">R190</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">
+              Trim nails, buff, file+paint
+            </p>
+            <div class="price-row">
+              <span class="item-name">Boys</span><span class="dots"></span
+              ><span class="price">R180</span>
+            </div>
+            <p class="text-xs text-gray-600">Trim nails, buff, file</p>
+          </section>
+
+          <section>
+            <h4 class="font-bold text-base mb-1">Manicures & Adults Mani</h4>
+            <div class="price-row">
+              <span class="item-name">Mini Mani (Trim nails, file + buff)</span
+              ><span class="dots"></span><span class="price">R360</span>
+            </div>
+            <div class="price-row mt-2">
+              <span class="item-name">Buff, file+paint (Trim, file+buff)</span
+              ><span class="dots"></span><span class="price">R240</span>
+            </div>
+            <div class="price-row">
+              <span class="item-name">Mens Pedi (Trim, file+buff)</span
+              ><span class="dots"></span><span class="price">R240</span>
+            </div>
+
+            <div class="price-row mt-2">
+              <span class="item-name">Pedicure from</span
+              ><span class="dots"></span><span class="price">R390</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              Cleaning off heals nail care and <br />
+              10 min foot massage
+            </p>
+
+            <div class="price-row mt-2">
+              <span class="item-name">Soak off gel polish</span
+              ><span class="dots"></span><span class="price">R150</span>
+            </div>
+          </section>
+
+          <section>
+            <h4 class="font-bold text-base mb-1">Ladies Mani</h4>
+            <div class="price-row">
+              <span class="item-name">Trim nails, file, cuticle + paint</span
+              ><span class="dots"></span><span class="price">R360</span>
+            </div>
+          </section>
+
+          <section>
+            <h4 class="font-bold text-base mb-1">Mens Mani</h4>
+            <div class="price-row">
+              <span class="item-name">Trim nails, file, buff, cuticle</span
+              ><span class="dots"></span><span class="price">R310</span>
+            </div>
+            <div class="price-row">
+              <span class="item-name"
+                >Men's Half Pedi: Trim, file, buff + cuticle</span
+              ><span class="dots"></span><span class="price">R240</span>
+            </div>
+            <div class="price-row">
+              <span class="item-name">Soak off gel polish</span
+              ><span class="dots"></span><span class="price">R180</span>
+            </div>
+            <div class="price-row">
+              <span class="item-name">Full Pedi (10min) foot massage</span
+              ><span class="dots"></span><span class="price">R380</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              Trim nails, file, buff, cuticle, foot file
+            </p>
+          </section>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer
+        class="bg-brand h-[30%] text-white text-center pt-3 px-4 text-sm space-y-1"
+      >
+        <h3 class="text-xl font-bold mb-2">
+          Meet a more beautiful and healthy self!
+        </h3>
+        <p class="font-medium">
+          Contact information: 021-671-0332 061-988-4077
+        </p>
+        <p>Trading Hours: Mon - Sun 9:00am-7:00pm</p>
+        <p>E-mail: caseyssoultherapy@gmail.com</p>
+        <p>Add: 1 A Cavendish Square Claremont</p>
+      </footer>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="page" id="page2">
+      <!-- 1. Top Blue Border Strip -->
+      <div class="h-6 bg-brand w-full shrink-0"></div>
+
+      <!-- Top Half: Content + Image -->
+      <!-- Adjusted height to h-[60%] to prevent text clipping -->
+      <div class="flex h-[66%] flex-col relative overflow-hidden">
+        <!-- Left Content -->
+        <!-- Reduced top padding to pt-5 to fit content better -->
+        <div class="w-1/2 px-8 pb-2 pt-5 space-y-2 z-10">
+          <!-- Waxing -->
+          <section>
+            <h3 class="font-bold text-lg mb-2">Ladies Wax</h3>
+            <div class="space-y-1 text-sm">
+              <div class="price-row">
+                <span class="item-name">Half leg</span><span class="dots"></span
+                ><span class="price">R300</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Three Quarter</span
+                ><span class="dots"></span><span class="price">R320</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Underarm</span><span class="dots"></span
+                ><span class="price">R210</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Half arm</span><span class="dots"></span
+                ><span class="price">R230</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Full arm</span><span class="dots"></span
+                ><span class="price">R320</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Brow Wax</span><span class="dots"></span
+                ><span class="price">R130</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Lip Wax</span><span class="dots"></span
+                ><span class="price">R110</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Chin Wax</span><span class="dots"></span
+                ><span class="price">R130</span>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3 class="font-bold text-lg mb-2">Mens Wax</h3>
+            <div class="space-y-1 text-sm">
+              <div class="price-row">
+                <span class="item-name">Full tummy</span
+                ><span class="dots"></span><span class="price">R330</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Full leg</span><span class="dots"></span
+                ><span class="price">R340</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Half leg</span><span class="dots"></span
+                ><span class="price">R320</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Chest</span><span class="dots"></span
+                ><span class="price">R330</span>
+              </div>
+              <div class="price-row">
+                <span class="item-name">Back</span><span class="dots"></span
+                ><span class="price">R380</span>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3 class="font-bold text-lg mb-2">Man & Lady Wax</h3>
+            <div class="price-row text-sm">
+              <span class="item-name">Neck wax</span><span class="dots"></span
+              ><span class="price">R220</span>
+            </div>
+          </section>
+        </div>
+
+        <!-- Facials & Contact Middle Bar -->
+        <div class="w-3/5 px-8 relative bg-white bg-opacity-90">
+          <section class="mb-4">
+            <h3 class="font-bold text-lg mb-1">Facial for Adults</h3>
+            <div class="price-row text-sm">
+              <span class="item-name">Facial cleanse</span
+              ><span class="dots"></span><span class="price">R530</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              toner, enzyme exfoliate, mask, serum, moisturizer and eye cream
+            </p>
+          </section>
+
+          <section class="mb-6">
+            <h3 class="font-bold text-lg mb-1">Facial for Kiddies/Teens</h3>
+            <div class="price-row text-sm">
+              <span class="item-name">Facial cleanse</span
+              ><span class="dots"></span><span class="price">R410</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              toner, charcoal mask, hydra aloe, moisturizer and eye cream
+            </p>
+          </section>
+
+          <div class="flex flex-col gap-1 pb-8">
+            <div class="flex items-center gap-2 font-bold text-brand">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="#3b5998"
+                stroke="none"
+              >
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+              <span class="text-gray-800 text-lg">Chinese soul therapy</span>
+            </div>
+            <div class="font-bold text-gray-700">
+              Email:
+              <span class="text-gray-900">caseyssoultherapy@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content / Image Background 
+                 Updated with 'fade-ellipse' and positioned Top-Right -->
+        <div class="absolute right-0 top-0 w-[60%] h-full pointer-events-none">
+          <img
+            src="./spa-img/2.jpg"
+            class="w-full h-full object-cover fade-ellipse object-[30%_50%]"
+            alt="Woman relaxing in spa"
+          />
+        </div>
+      </div>
+
+      <!-- Bottom Images Collage -->
+      <!-- Reduced height to h-[28%] to accommodate larger top section -->
+      <div class="flex-grow grid grid-cols-12 h-[28%] gap-2 p-4 overflow-hidden">
+        <!-- Large Image: Hot Stones -->
+        <div
+          class="col-span-5 h-4/5 relative rounded-lg overflow-hidden border-2 border-brand"
+        >
+          <img
+            src="./spa-img/1.png"
+            class="w-full h-full object-cover"
+            alt="Hot stone massage"
+          />
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-span-7 flex flex-col gap-2 h-4/5">
+          <!-- Top: Reflexology Chart -->
+          <div
+            class="h-1/2 rounded-lg overflow-hidden border-2 border-brand bg-white flex items-center justify-center"
+          >
+            <img
+              src="./spa-img/4.jpg"
+              class="w-full h-full object-cover"
+              alt="Reflexology Chart"
+            />
+          </div>
+          <!-- Bottom: Split Images -->
+          <div class="h-1/2 flex gap-2">
+            <div class="w-1/2 rounded-lg overflow-hidden border-2 border-brand">
+              <img
+                src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=2070&auto=format&fit=crop"
+                class="w-full h-full object-cover"
+                alt="Therapist massage"
+              />
+            </div>
+            <div class="w-1/2 rounded-lg overflow-hidden border-2 border-brand">
+              <img
+                src="./spa-img/5.jpg"
+                class="w-full h-full object-cover"
+                alt="Foot massage"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

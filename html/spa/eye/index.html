@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent For Credit Check</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .paper {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .input-inline {
+            border-bottom: 1px solid #9ca3af;
+            outline: none;
+            padding: 0 4px;
+            transition: border-color 0.2s;
+            min-width: 150px;
+            color: #111827;
+        }
+
+        .input-inline:focus {
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .input-block {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 6px; /* 缩小内边距 */
+            margin-top: 2px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-block:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        @media print {
+            body {
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+            .paper {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                padding: 15mm;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .input-inline {
+                border-bottom: 1px solid black;
+            }
+            .input-block {
+                border: 1px solid #ccc;
+            }
+        }
+
+        .legal-text {
+            line-height: 1.5; /* 稍微压缩行高 */
+            text-align: justify;
+            font-size: 13px; /* 稍微缩小字体以适应页面 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 操作栏 -->
+    <div class="no-print sticky top-0 bg-white border-b shadow-sm z-50 p-4 flex justify-between items-center max-w-4xl mx-auto rounded-b-lg mt-4">
+        <div>
+            <h1 class="font-bold text-lg text-gray-800">Credit Check Consent Form</h1>
+            <p class="text-xs text-gray-500">填写信息后点击右侧打印按钮 / Fill out and click Print</p>
+        </div>
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            打印 / 另存为 PDF
+        </button>
+    </div>
+
+    <!-- 表单主体 -->
+    <div class="paper">
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-bold uppercase tracking-wider border-b-2 border-black pb-1 inline-block">Consent Form</h2>
+        </div>
+
+        <div class="legal-text mb-6">
+            <p>
+                I, <input type="text" class="input-inline w-30" placeholder="">("name"), 
+                the duly authorised representative of <input type="text" class="input-inline w-50" placeholder=""> 
+                with ID number/Registration number <input type="text" class="input-inline w-30" placeholder=""> 
+                ("Company") 
+                agree that Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> may make inquiries to confirm any information provided by the Company and that Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> may verify the information and obtain additional information from Experian, a registered credit bureau, when assessing the information provided herein.
+            </p>
+            <div class="h-2"></div>
+            <p>
+                I authorise Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> to conduct a credit report on the company, and warrant that all the directors and/or members have consented to the Company instructing Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> to conduct the credit enquiry on the Company and that the Director and/or Members acknowledges that the enquiry will include an inquiry into the Director and/or Member's credit profile. 
+            </p>
+            <div class="h-2"></div>
+            <p>
+                I further warrant that the Directors and/or members authorise Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> to obtain the credit information on the Directors and/or Members and that the Company has the consents as stated herein, in writing. In the event of Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> being required to do an account verification check to verify that banking details provided, are correct, or to enquire with the Company's banker to obtain its opinion with regards to lending amounts and lending terms applicable to the Company, I hereby authorise such an enquiry. 
+            </p>
+            <div class="h-2"></div>
+            <p>
+                We furthermore consent to Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> submitting our information, including payment profile and default information and any other relevant information, to Experian and to allow Experian to release the information for lawful purposes to third parties.
+            </p>
+            <div class="h-2"></div>
+            <p>
+                I furthermore warrant that all information supplied to Company <strong>EXCELLERATE REAL ESTATE SERVICES PTY LTD T/A JHI</strong> is to the best of my knowledge true and correct, that I am not aware of any other information that would affect the credit application of the Company in any way and that I am authorised to sign this document.
+            </p>
+        </div>
+
+        <!-- 公司签名部分 -->
+        <div class="mb-6">
+            <h3 class="font-bold border-b border-gray-300 mb-3 pb-1 text-sm">The Company:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <div>
+                    <label class="text-xs font-semibold text-gray-600">Name of the Company:</label>
+                    <input type="text" class="input-block">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600">Name of the Authorised Representative:</label>
+                        <input type="text" class="input-block">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600">Title:</label>
+                        <input type="text" class="input-block">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600">Signature:</label>
+                        <!-- 缩小了高度并调紧了样式 -->
+                        <div class="input-block h-10 bg-gray-50 flex items-center justify-center text-gray-400 italic text-[10px] border-dashed">
+                            Sign here after printing
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600">Date:</label>
+                        <input type="text" class="input-block">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 董事详情 -->
+        <div>
+            <div class="flex justify-between items-center border-b border-gray-300 mb-3 pb-1">
+                <h3 class="font-bold text-sm">Directors/Members Details:</h3>
+                <button onclick="addDirectorRow()" class="no-print text-[10px] bg-gray-100 hover:bg-gray-200 px-2 py-0.5 rounded border border-gray-300">+ Add More</button>
+            </div>
+            
+            <table class="w-full text-xs" id="directorsTable">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="border p-1.5 text-left w-2/3">Name</th>
+                        <th class="border p-1.5 text-left">ID Number</th>
+                    </tr>
+                </thead>
+                <tbody id="directorsBody">
+                    <tr>
+                        <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+                        <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+                        <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 页脚免责声明 -->
+        <div class="mt-8 pt-3 border-t border-gray-200">
+            <p class="text-[9px] text-gray-400 leading-tight italic">
+                The information provided in this document does not, and is not intended to, constitute legal advice; instead, this template clause should only be regarded as a guideline and be used for general informational purposes and we recommend that you seek a legal opinion on the matter from your legal advisors.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function addDirectorRow() {
+            const tbody = document.getElementById('directorsBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+                <td class="border p-0.5"><input type="text" class="w-full p-1 outline-none"></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // 设置默认日期为今天
+        document.querySelector('input[type="date"]').valueAsDate = ''//new Date();
+    </script>
+</body>
+</html>
